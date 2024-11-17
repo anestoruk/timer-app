@@ -1,0 +1,10 @@
+[package]
+name = "timer-app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+iced = { version = "0.13.1", features = ["tokio", "image"] }
+image = "0.25.5"
+winrt-notification = "0.5.1"
+time = "0.3.36"

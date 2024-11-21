@@ -43,6 +43,7 @@ impl Default for TimerApp {
 #[derive(Debug, Clone)]
 enum Message {
     Increment,
+    Reset,
     UpdateDelay(String),
     UpdateText(String),
     EventHappened,
@@ -75,6 +76,10 @@ impl TimerApp {
                         .show()
                         .expect("unable to toast")
                 }
+            }
+
+            Message::Reset => {
+                self.counter = 0;
             }
 
             Message::UpdateDelay(delay_text) => {
@@ -113,22 +118,27 @@ impl TimerApp {
             text(format!("Next break in {} seconds", self.delay - (self.counter % self.delay))),
 
             button(text("Increment"))
-                .width(200)
+                .width(Fill)
                 .on_press(Message::Increment),
 
+            button(text("Reset"))
+                .width(Fill)
+                .on_press(Message::Reset),
+
             text_input("Delay in seconds", &self.delay_text)
-                .width(200)
+                .width(Fill)
                 .on_input(Message::UpdateDelay),
 
             text_input("Notification text", &self.text)
-                .width(200)
+                .width(Fill)
                 .on_input(Message::UpdateText),
 
             text(&self.log_message)
                 .size(10)
-                .width(200)
+                .width(Fill)
                 .height(100),
-            ].spacing(20))
+            ].width(300).spacing(20)
+        )
             .style(|theme: &Theme| {
                 container::Style::default().border(
                     border::color(theme.extended_palette().primary.weak.color).width(5)
